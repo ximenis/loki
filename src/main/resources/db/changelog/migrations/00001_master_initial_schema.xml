@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<databaseChangeLog
+        xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog
+	http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-4.1.xsd">
+
+    <changeSet id="1686778732685-0" author="victorximenis (generated)">
+        <sql>
+            CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+        </sql>
+    </changeSet>
+
+    <changeSet id="1686778732685-1" author="victorximenis (generated)">
+        <createTable tableName="t_tenant">
+            <column defaultValueComputed="${uuid_function}" name="id" type="${uuid_type}">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_t_tenant"/>
+            </column>
+            <column name="name" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1686778732685-2" author="victorximenis (generated)">
+        <createTable tableName="t_credential">
+            <column defaultValueComputed="${uuid_function}" name="id" type="${uuid_type}">
+                <constraints nullable="false" primaryKey="true" primaryKeyName="pk_t_credential"/>
+            </column>
+
+            <column name="application" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="owner" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="email" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="api_key" type="VARCHAR(255)">
+                <constraints nullable="false"/>
+            </column>
+            <column name="tenant_id" type="${uuid_type}">
+                <constraints nullable="false"/>
+            </column>
+            <column name="created_at" type="DATETIME" defaultValueComputed="CURRENT_TIMESTAMP"/>
+            <column name="updated_at" type="DATETIME"/>
+            <column name="deleted_at" type="DATETIME"/>
+        </createTable>
+    </changeSet>
+
+    <changeSet id="1686778732685-3" author="victorximenis (generated)">
+        <preConditions onFail="CONTINUE">
+            <not>
+                <foreignKeyConstraintExists foreignKeyName="fk_credential_tenant_id" foreignKeyTableName="t_credential" />
+            </not>
+        </preConditions>
+
+        <addForeignKeyConstraint constraintName="fk_credential_tenant_id" baseColumnNames="tenant_id" baseTableName="t_credential" deferrable="false" initiallyDeferred="false" onDelete="NO ACTION" onUpdate="NO ACTION" referencedColumnNames="id" referencedTableName="t_tenant" validate="true"/>
+
+        <rollback>
+            <dropForeignKeyConstraint constraintName="fk_credential_tenant_id" baseTableName="t_credential"/>
+        </rollback>
+    </changeSet>
+
+</databaseChangeLog>

@@ -1,0 +1,15 @@
+[
+  {
+    "name": "org.hibernate.generator.internal.CurrentTimestampGeneration",
+    "allPublicMethods": true,
+    "allPublicConstructors": true
+  },
+  {
+    "name": "liquibase.changelog.ChangeLogHistoryServiceFactory",
+    "allDeclaredConstructors": true
+  },
+  {
+    "name": "[Ljava.util.UUID;",
+    "unsafeAllocated": true
+  }
+]

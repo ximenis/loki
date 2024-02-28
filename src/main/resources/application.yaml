@@ -1,0 +1,32 @@
+application:
+  title: loki-api
+  version: 0.0.1-SNAPSHOT
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: info, health
+      base-path: /monitor
+
+spring:
+  datasource:
+    url: jdbc:postgresql://localhost:5432/loki
+    username: esphero
+    password: esphero
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        format_sql: true
+  liquibase:
+    change-log: classpath:/db/changelog/schema-master.xml
+
+loki:
+  errorType: https://docs.esphero.tech/errors
+  cache:
+    ttl: 1800
+  redis:
+    host: localhost
+    port: 6379
